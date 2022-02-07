@@ -25,7 +25,7 @@ else
     echo "INFO: Conda detected, skipping installation"
 fi
 
-
+source ~/.bashrc
 if ! conda info --envs | grep -E "^opencraft\s"
 then
     # Create 'opencraft' Python environment
