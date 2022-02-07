@@ -10,8 +10,8 @@ CODE_PATH="/var/scratch/$USER/$DIR_NAME/code"
 OPENCRAFT_PATH=$CODE_PATH/opencraft
 YARDSTICK_PATH=$CODE_PATH/yardstick
 
-which conda
-if [ $? -eq 1 ]
+
+if ! which conda
 then
     # Install Miniconda 3
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
@@ -23,8 +23,8 @@ else
     echo "INFO: Conda detected, skipping installation"
 fi
 
-conda info --envs | grep -E "^opencraft\s"
-if [ $? -eq 1 ]
+
+if ! conda info --envs | grep -E "^opencraft\s"
 then
     # Create 'opencraft' Python environment
     source ~/.bashrc
@@ -38,8 +38,8 @@ else
 fi
 conda activate opencraft
 
-which ocd
-if [ $? -eq 1 ]
+
+if ! which ocd
 then
     # Install OCD
     curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/scripts/setup-opencraft.sh | bash
