@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -o pipefail
+
 USER=$(whoami)
 
 # Declare variables
