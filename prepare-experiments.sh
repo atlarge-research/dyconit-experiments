@@ -29,7 +29,6 @@ source ~/.bashrc
 if ! conda info --envs | grep -E "^opencraft\s"
 then
     # Create 'opencraft' Python environment
-    source ~/.bashrc
     wget https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/conda/spec-file.txt
     conda create --name opencraft --file spec-file.txt
     echo "conda activate opencraft" >> ~/.bashrc
@@ -40,7 +39,6 @@ else
 fi
 conda activate opencraft
 
-
 if ! which ocd
 then
     # Install OCD
@@ -50,14 +48,16 @@ else
     echo "INFO: OpenCraft Deployer (ocd) detected, skipping installation"
 fi
 
-# if [ ! -d $OPENCRAFT_PATH ]
-# then
-#     # Get Opencraft source code and compile
-#     git clone https://github.com/atlarge-research/opencraft
-#     cd opencraft
-#     git checkout 4744c9f91
-#     mvn verify
-# fi
+if [ ! -d $OPENCRAFT_PATH ]
+then
+    # Get Opencraft source code and compile
+    mkdir -p $OPENCRAFT_PATH
+    cd $(dirname $OPENCRAFT_PATH)
+    git clone https://github.com/atlarge-research/opencraft $(basename $OPENCRAFT_PATH)
+    cd $(basename $OPENCRAFT_PATH)
+    git checkout 4744c9f91
+    mvn verify
+fi
 
 # if [ ! -d $YARDSTICK_PATH ]
 # then
