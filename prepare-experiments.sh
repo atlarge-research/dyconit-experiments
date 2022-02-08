@@ -11,6 +11,8 @@ EXPERIMENT_PATH="/var/scratch/$USER/$DIR_NAME/experiments"
 CODE_PATH="/var/scratch/$USER/$DIR_NAME/code"
 OPENCRAFT_PATH=$CODE_PATH/opencraft
 YARDSTICK_PATH=$CODE_PATH/yardstick
+OPENCRAFT_JAR=$OPENCRAFT_PATH/target/opencraft.jar
+YARDSTICK_JAR=$YARDSTICK_PATH/yardstick/target/yardstick-1.0.3-SNAPSHOT.jar
 
 
 if ! which conda
@@ -70,19 +72,14 @@ then
     mvn verify
 fi
 
-# # Create experiment directories, put files in the right place
-# if [ ! -d $EXPERIMENT_PATH ]
-# then
-#     mkdir -p $EXPERIMENT_PATH
-    
-#     cd $EXPERIMENT_PATH
-#     mkdir -p experiment-scalability
-#     cd experiment-scalability
-#     mkdir resources policy-zero policy-aoi policy-is policy-isn
+# Create experiment directories, put files in the right place
+if [ ! -d $EXPERIMENT_PATH ]
+then
+    mkdir -p $EXPERIMENT_PATH
+    cd $(dirname $EXPERIMENT_PATH)
+    git clone git@github.com:atlarge-research/dyconit-experiments.git $(basename $EXPERIMENT_PATH)
 
-#     cd $EXPERIMENT_PATH
-#     mkdir -p dynamic-consistency-experiment/resources
-
-#     cd $EXPERIMENT_PATH
-#     mkdir -p consistency-network-experiment/resources
-# fi
+    cp $OPENCRAFT_JAR $YARDSTICK_JAR $EXPERIMENT_PATH/bandwidth-consistency-experiment/resources
+    cp $OPENCRAFT_JAR $YARDSTICK_JAR $EXPERIMENT_PATH/dynamic-consistency-experiment/resources
+    cp $OPENCRAFT_JAR $YARDSTICK_JAR $EXPERIMENT_PATH/scalability-experiment/resources
+fi
