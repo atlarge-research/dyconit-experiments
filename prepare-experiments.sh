@@ -59,14 +59,16 @@ then
     mvn verify
 fi
 
-# if [ ! -d $YARDSTICK_PATH ]
-# then
-#     # Get Yardstick source code and compile
-#     git clone https://github.com/atlarge-research/yardstick
-#     cd yardstick
-#     git checkout ...
-#     mvn verify
-# fi
+if [ ! -d $YARDSTICK_PATH ]
+then
+    # Get Yardstick source code and compile
+    mkdir -p $YARDSTICK_PATH
+    cd $(dirname $YARDSTICK_PATH)
+    git clone https://github.com/atlarge-research/yardstick $(basename $YARDSTICK_PATH)
+    cd $(basename $YARDSTICK_PATH)
+    git checkout b8890f17597b015b4077e55929105c2da2886790
+    mvn verify
+fi
 
 # # Create experiment directories, put files in the right place
 # if [ ! -d $EXPERIMENT_PATH ]
