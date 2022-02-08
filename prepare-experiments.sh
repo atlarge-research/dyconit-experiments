@@ -65,7 +65,7 @@ then
     mkdir -p $YARDSTICK_PATH
     cd $(dirname $YARDSTICK_PATH)
     git clone https://github.com/atlarge-research/yardstick $(basename $YARDSTICK_PATH)
-    cd $(basename $YARDSTICK_PATH)
+    cd $(basename $YARDSTICK_PATH)/yardstick
     git checkout b8890f17597b015b4077e55929105c2da2886790
     mvn verify
 fi
