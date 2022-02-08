@@ -1,0 +1,12 @@
+iterations = 1
+iterationDuration = 1800
+
+[deployment]
+yardstick = [1,2,3,4,5]
+
+[opencraft]
+jvm = ["-Xms32G", "-Xmx32G"]
+
+[yardstick]
+jvm = ["-Xms32G", "-Xmx32G"]
+
