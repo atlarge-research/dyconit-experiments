@@ -4,10 +4,16 @@ set -o pipefail
 
 USER=$(whoami)
 
-# Declare variables
-DIR_NAME="atds-dyconits"
+# Declared variables
+DIR_NAME="atds-dyconits" # Change this variable to put experiments and code in a different folder
 MINICONDA_PATH="/var/scratch/$USER/miniconda3"
+
+# Derived variables
 EXPERIMENT_PATH="/var/scratch/$USER/$DIR_NAME/experiments"
+BANDWIDTH_EXPERIMENT_PATH=$EXPERIMENT_PATH/bandwidth-consistency-experiment
+DYNAMIC_CONSISTENCY_EXPERIMENT_PATH=$EXPERIMENT_PATH/dynamic-consistency-experiment
+SCALABILITY_EXPERIMENT_PATH=$EXPERIMENT_PATH/scalability-experiment
+
 CODE_PATH="/var/scratch/$USER/$DIR_NAME/code"
 OPENCRAFT_PATH=$CODE_PATH/opencraft
 YARDSTICK_PATH=$CODE_PATH/yardstick
@@ -79,10 +85,21 @@ prepare () {
         cd $(dirname $EXPERIMENT_PATH)
         git clone git@github.com:atlarge-research/dyconit-experiments.git $(basename $EXPERIMENT_PATH)
 
-        cp $OPENCRAFT_JAR $YARDSTICK_JAR $EXPERIMENT_PATH/bandwidth-consistency-experiment/resources
-        cp $OPENCRAFT_JAR $YARDSTICK_JAR $EXPERIMENT_PATH/dynamic-consistency-experiment/resources
-        cp $OPENCRAFT_JAR $YARDSTICK_JAR $EXPERIMENT_PATH/scalability-experiment/resources
+        cp $OPENCRAFT_JAR $YARDSTICK_JAR $BANDWIDTH_EXPERIMENT_PATH/resources
+        cp $OPENCRAFT_JAR $YARDSTICK_JAR $DYNAMIC_CONSISTENCY_EXPERIMENT_PATH/resources
+        cp $OPENCRAFT_JAR $YARDSTICK_JAR $SCALABILITY_EXPERIMENT_PATH/resources
     fi   
+}
+
+run () {
+    ocd run $BANDWIDTH_EXPERIMENT_PATH
+    ocd collect $BANDWIDTH_EXPERIMENT_PATH
+
+    ocd run $DYNAMIC_CONSISTENCY_EXPERIMENT_PATH
+    ocd collect $DYNAMIC_CONSISTENCY_EXPERIMENT_PATH
+
+    ocd run $SCALABILITY_EXPERIMENT_PATH
+    ocd collect $SCALABILITY_EXPERIMENT_PATH
 }
 
 help () {
